@@ -1,20 +1,10 @@
--- shiftlock teste 2
-local TEST_NUMBER = 2
+local TEST_NUMBER = 3
 
-local success, Players = pcall(function() return game:GetService("Players") end)
-if not success then return end
-
+local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
-if not LocalPlayer then return end
-
-local success2, UserInputService = pcall(function() return game:GetService("UserInputService") end)
-if not success2 then return end
-
-local success3, RunService = pcall(function() return game:GetService("RunService") end)
-if not success3 then return end
-
-local success4, HapticService = pcall(function() return game:GetService("HapticService") end)
-if not success4 then HapticService = nil end
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local HapticService = game:GetService("HapticService")
 
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
@@ -30,7 +20,7 @@ local LockButton = Instance.new("ImageButton")
 LockButton.Name = "LockButton"
 LockButton.Parent = ShiftLockGui
 LockButton.AnchorPoint = Vector2.new(0,0)
-LockButton.Size = UDim2.new(0, 60, 0, 60) -- tamanho oficial
+LockButton.Size = UDim2.new(0,60,0,60)
 LockButton.BackgroundTransparency = 1
 LockButton.BorderSizePixel = 0
 LockButton.AutoButtonColor = true
@@ -40,11 +30,13 @@ local UIAspect = Instance.new("UIAspectRatioConstraint")
 UIAspect.AspectRatio = 1
 UIAspect.Parent = LockButton
 
--- Posicionar botão no canto direito, central vertical
+-- Posicionar botão acima do botão de pular
 local function updateButtonPosition()
     local screenSize = PlayerGui.AbsoluteSize
-    local x = screenSize.X - LockButton.AbsoluteSize.X - 10 -- margem direita
-    local y = (screenSize.Y - LockButton.AbsoluteSize.Y)/2      -- central vertical
+    local jumpButtonMarginX = 20
+    local jumpButtonMarginY = 120
+    local x = screenSize.X - 60 - jumpButtonMarginX  -- 60 = largura do shiftlock
+    local y = screenSize.Y - 120 - jumpButtonMarginY -- acima do botão de pular
     LockButton.Position = UDim2.new(0, x, 0, y)
 end
 updateButtonPosition()
@@ -84,7 +76,6 @@ local function enforceOfficialSync()
     if userGameSettings then
         pcall(function() userGameSettings.RotationType = Enum.RotationType.CameraRelative end)
     end
-    -- MOBILE: sem deslocamento
     UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
 end
 
