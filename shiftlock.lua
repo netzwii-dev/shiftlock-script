@@ -24,9 +24,9 @@ local LockButton = Instance.new("ImageButton")
 LockButton.Name = "LockButton"
 LockButton.Parent = ShiftLockGui
 LockButton.AnchorPoint = Vector2.new(0.5, 0.5)
--- Novo posicionamento: +40px à direita, +8px acima da posição anterior
-LockButton.Position = UDim2.new(0.85, 90, 0.5, -38)
-LockButton.Size = UDim2.new(0.075, -17, 0.075, -17) -- Tamanho reduzido
+-- Novo posicionamento: 80px à esquerda, 50px para baixo
+LockButton.Position = UDim2.new(0.85, 10, 0.5, 12)
+LockButton.Size = UDim2.new(0.075, -17, 0.075, -17)
 LockButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
 LockButton.BackgroundTransparency = 0.2
 LockButton.BorderSizePixel = 0
@@ -86,7 +86,6 @@ local function enforceOfficialSync()
         end
     end
 
-    -- Apenas bloqueia o mouse, sem mover a câmera
     UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
 end
 
