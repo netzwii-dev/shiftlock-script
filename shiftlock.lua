@@ -17,16 +17,8 @@ ShiftLockGui.Parent = PlayerGui
 local LockButton = Instance.new("ImageButton")
 LockButton.Name = "LockButton"
 LockButton.Parent = ShiftLockGui
-LockButton.AnchorPoint = Vector2.new(0,0)
-
--- Base Roblox mobile padrão
-local baseX = 800
-local baseY = 400
-
--- Aplicando deslocamento: +15px direita, -60px para cima
-LockButton.Position = UDim2.new(0, baseX + 15, 0, baseY - 60)
-LockButton.Size = UDim2.new(0, 80, 0, 80) -- menor botão
-
+LockButton.AnchorPoint = Vector2.new(1, 0.5) -- canto direito do botão na posição
+LockButton.Size = UDim2.new(0, 80, 0, 80) -- tamanho do botão
 LockButton.BackgroundTransparency = 1
 LockButton.BorderSizePixel = 0
 LockButton.AutoButtonColor = true
@@ -36,13 +28,24 @@ local UIAspect = Instance.new("UIAspectRatioConstraint")
 UIAspect.AspectRatio = 1
 UIAspect.Parent = LockButton
 
+-- --- Posicionamento correto baseado na tela ---
+local function updateButtonPosition()
+    local screenSize = PlayerGui.AbsoluteSize
+    -- canto direito, meio vertical
+    local x = screenSize.X - 80 + 15      -- 15px para direita
+    local y = screenSize.Y / 2 - 60       -- 60px para cima
+    LockButton.Position = UDim2.new(0, x, 0, y)
+end
+updateButtonPosition()
+PlayerGui:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateButtonPosition)
+
 -- Crosshair menor
 local Crosshair = Instance.new("ImageLabel")
 Crosshair.Name = "ShiftLockCrosshair"
 Crosshair.Parent = ShiftLockGui
 Crosshair.AnchorPoint = Vector2.new(0.5, 0.5)
-Crosshair.Position = UDim2.new(0.5, 0, 0.5, 0) -- meio da tela
-Crosshair.Size = UDim2.new(0, 30, 0, 30) -- menor
+Crosshair.Position = UDim2.new(0.5, 0, 0.5, 0)
+Crosshair.Size = UDim2.new(0, 30, 0, 30)
 Crosshair.BackgroundTransparency = 1
 Crosshair.Image = "rbxasset://textures/MouseLockedCursor.png"
 Crosshair.Visible = false
@@ -76,14 +79,13 @@ local function enforceOfficialSync()
     end
 
     UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
-    -- NÃO HÁ DESLOCAMENTO
 end
 
 -- --- Toggle ShiftLock ---
 local function ToggleShiftLock(enabled)
     isShiftLockEnabled = enabled
     Crosshair.Visible = enabled 
-    
+
     task.spawn(function()
         pcall(function()
             if HapticService:IsVibrationSupported(Enum.UserInputType.Gamepad1) or UserInputService.TouchEnabled then
