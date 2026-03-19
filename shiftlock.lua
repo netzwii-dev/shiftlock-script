@@ -43,8 +43,8 @@ ButtonIcon.Parent = LockButton
 ButtonIcon.BackgroundTransparency = 1
 ButtonIcon.Position = UDim2.new(0.15, 0, 0.15, 0)
 ButtonIcon.Size = UDim2.new(0.67, 0, 0.67, 0)
--- Changed to official Roblox ShiftLock icon
-ButtonIcon.Image = "rbxassetid://6023426926"
+-- Official Roblox Shift Lock icon
+ButtonIcon.Image = "rbxasset://textures/ui/ShiftLockIcon.png"
 ButtonIcon.ScaleType = Enum.ScaleType.Fit
 ButtonIcon.ImageColor3 = Color3.fromRGB(255, 0, 100) 
 
