@@ -1,4 +1,4 @@
---[[ ShiftLock Script - Roblox Official Style ]]
+--[[ ShiftLock Script - Sólido, botão maior e posição ajustada ]]
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -20,15 +20,15 @@ LockButton.Name = "LockButton"
 LockButton.Parent = ShiftLockGui
 LockButton.AnchorPoint = Vector2.new(0.5, 0.5)
 
--- Posição oficial Roblox: lado direito, meio da tela vertical
-LockButton.Position = UDim2.new(0.95, 0, 0.5, 0)
-LockButton.Size = UDim2.new(0.06, 0, 0.06, 0)
+-- Aumentando tamanho e movendo posição
+LockButton.Position = UDim2.new(0.95, -80, 0.5, 70) -- 80px esquerda, 70px baixo
+LockButton.Size = UDim2.new(0.09, 0, 0.09, 0) -- maior que antes
 
 LockButton.BackgroundTransparency = 1
 LockButton.BorderSizePixel = 0
 LockButton.AutoButtonColor = true
 
--- ÍCONE ROBLOX OFF/ON
+-- Ícone Roblox
 LockButton.Image = "rbxasset://textures/ui/mouseLock_off.png"
 
 local UIAspect = Instance.new("UIAspectRatioConstraint")
@@ -54,7 +54,7 @@ CrossAspect.Parent = Crosshair
 -- --- Core Variables ---
 local isShiftLockEnabled = false
 local userGameSettings = nil
-local OFFSET_VAL = 1.75 
+local OFFSET_VAL = 0 -- removendo deslocamento de câmera
 
 -- --- Core Sync Loop ---
 local function enforceOfficialSync()
@@ -79,13 +79,8 @@ local function enforceOfficialSync()
 
     UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
 
-    local dist = (cam.Focus.Position - cam.CFrame.Position).Magnitude
-    
-    if dist > 0.80 then 
-        local rawCFrame = cam.CFrame
-        cam.CFrame = rawCFrame * CFrame.new(OFFSET_VAL, 0, 0)
-        cam.Focus = cam.CFrame * CFrame.new(0, 0, -dist)
-    end
+    -- removendo deslocamento
+    -- nenhuma linha de cam.CFrame * CFrame.new(OFFSET_VAL,0,0)
 end
 
 -- --- Toggle ShiftLock ---
@@ -115,13 +110,6 @@ local function ToggleShiftLock(enabled)
             pcall(function() userGameSettings.RotationType = Enum.RotationType.MovementRelative end)
         end
         UserInputService.MouseBehavior = Enum.MouseBehavior.Default
-        
-        local cam = workspace.CurrentCamera
-        local dist = (cam.Focus.Position - cam.CFrame.Position).Magnitude
-        if dist > 0.1 then
-             cam.CFrame = cam.CFrame * CFrame.new(-OFFSET_VAL, 0, 0)
-             cam.Focus = cam.CFrame * CFrame.new(0, 0, -dist)
-        end
     end
 end
 
