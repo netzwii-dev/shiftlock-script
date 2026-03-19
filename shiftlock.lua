@@ -6,7 +6,7 @@ local HapticService = game:GetService("HapticService")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
--- --- GUI FIXED ---
+-- GUI
 local ShiftLockGui = Instance.new("ScreenGui")
 ShiftLockGui.Name = "FinalShiftlock"
 ShiftLockGui.ResetOnSpawn = false
@@ -17,8 +17,8 @@ ShiftLockGui.Parent = PlayerGui
 local LockButton = Instance.new("ImageButton")
 LockButton.Name = "LockButton"
 LockButton.Parent = ShiftLockGui
-LockButton.AnchorPoint = Vector2.new(1, 0.5) -- canto direito do botão na posição
-LockButton.Size = UDim2.new(0, 80, 0, 80) -- tamanho do botão
+LockButton.AnchorPoint = Vector2.new(1, 0.5) -- canto direito do botão
+LockButton.Size = UDim2.new(0, 60, 0, 60) -- tamanho oficial do Roblox
 LockButton.BackgroundTransparency = 1
 LockButton.BorderSizePixel = 0
 LockButton.AutoButtonColor = true
@@ -28,24 +28,23 @@ local UIAspect = Instance.new("UIAspectRatioConstraint")
 UIAspect.AspectRatio = 1
 UIAspect.Parent = LockButton
 
--- --- Posicionamento correto baseado na tela ---
+-- Função para posicionar baseado na tela
 local function updateButtonPosition()
     local screenSize = PlayerGui.AbsoluteSize
-    -- canto direito, meio vertical
-    local x = screenSize.X - 80 + 15      -- 15px para direita
-    local y = screenSize.Y / 2 - 60       -- 60px para cima
+    local x = screenSize.X - 60 - 15 -- 15px de margem do canto direito
+    local y = screenSize.Y / 2       -- central vertical
     LockButton.Position = UDim2.new(0, x, 0, y)
 end
 updateButtonPosition()
 PlayerGui:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateButtonPosition)
 
--- Crosshair menor
+-- Crosshair no meio da tela
 local Crosshair = Instance.new("ImageLabel")
 Crosshair.Name = "ShiftLockCrosshair"
 Crosshair.Parent = ShiftLockGui
 Crosshair.AnchorPoint = Vector2.new(0.5, 0.5)
 Crosshair.Position = UDim2.new(0.5, 0, 0.5, 0)
-Crosshair.Size = UDim2.new(0, 30, 0, 30)
+Crosshair.Size = UDim2.new(0, 30, 0, 30) -- pequeno, central
 Crosshair.BackgroundTransparency = 1
 Crosshair.Image = "rbxasset://textures/MouseLockedCursor.png"
 Crosshair.Visible = false
@@ -55,11 +54,10 @@ local CrossAspect = Instance.new("UIAspectRatioConstraint")
 CrossAspect.AspectRatio = 1
 CrossAspect.Parent = Crosshair
 
--- --- Core Variables ---
+-- Core
 local isShiftLockEnabled = false
 local userGameSettings = nil
 
--- --- Core Sync Loop ---
 local function enforceOfficialSync()
     if not isShiftLockEnabled then 
         RunService:UnbindFromRenderStep("FinalNailSync")
@@ -81,7 +79,6 @@ local function enforceOfficialSync()
     UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
 end
 
--- --- Toggle ShiftLock ---
 local function ToggleShiftLock(enabled)
     isShiftLockEnabled = enabled
     Crosshair.Visible = enabled 
@@ -110,12 +107,10 @@ local function ToggleShiftLock(enabled)
     end
 end
 
--- CLICK SIMPLES SEM DRAG
 LockButton.MouseButton1Click:Connect(function()
     ToggleShiftLock(not isShiftLockEnabled)
 end)
 
--- RESET AO RESPAWN
 LocalPlayer.CharacterAdded:Connect(function()
     RunService:UnbindFromRenderStep("FinalNailSync")
     RunService.RenderStepped:Wait()
