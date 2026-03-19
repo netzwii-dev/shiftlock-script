@@ -24,8 +24,10 @@ local LockButton = Instance.new("ImageButton")
 LockButton.Name = "LockButton"
 LockButton.Parent = ShiftLockGui
 LockButton.AnchorPoint = Vector2.new(0.5, 0.5)
-LockButton.Position = UDim2.new(0.85, 0, 0.5, 0)
-LockButton.Size = UDim2.new(0.075, 0, 0.075, 0) 
+-- Moved 40px left, 15px up
+LockButton.Position = UDim2.new(0.85, -40, 0.5, -15)
+-- Reduced size slightly by 10px
+LockButton.Size = UDim2.new(0.075, -10, 0.075, -10)
 LockButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 LockButton.BackgroundTransparency = 0.2
 LockButton.BorderSizePixel = 0
