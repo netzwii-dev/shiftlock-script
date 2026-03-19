@@ -24,9 +24,9 @@ local LockButton = Instance.new("ImageButton")
 LockButton.Name = "LockButton"
 LockButton.Parent = ShiftLockGui
 LockButton.AnchorPoint = Vector2.new(0.5, 0.5)
--- Position: 70px right, 10px up
+-- Fixed position: 70px right, 10px up
 LockButton.Position = UDim2.new(0.85, 30, 0.5, -25)
--- Size reduced by 17px total (original reduction + new 7px)
+-- Fixed size, slightly smaller
 LockButton.Size = UDim2.new(0.075, -17, 0.075, -17)
 LockButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 LockButton.BackgroundTransparency = 0.2
@@ -156,74 +156,7 @@ LocalPlayer.CharacterAdded:Connect(function(char)
     end
 end)
 
--- --- 6. Draggable & Bounds Logic ---
-local dragging = false
-local canDrag = false
-local pressStartTime = 0
-local dragStart, startPos
-
-local function isTouchInsideButton(position)
-    local btnPos = LockButton.AbsolutePosition
-    local btnSize = LockButton.AbsoluteSize
-    return position.X >= btnPos.X and position.X <= btnPos.X + btnSize.X and
-           position.Y >= btnPos.Y and position.Y <= btnPos.Y + btnSize.Y
-end
-
-LockButton.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
-        if isTouchInsideButton(input.Position) then
-            pressStartTime = tick()
-            canDrag = false
-            dragging = false
-            dragStart = input.Position
-            startPos = LockButton.Position
-
-            task.delay(0.30, function()
-                if (tick() - pressStartTime >= 0.30) and isTouchInsideButton(input.Position) then
-                    if input.UserInputState ~= Enum.UserInputState.End then
-                        canDrag = true
-                        LockButton.BackgroundTransparency = 0.5
-                    end
-                end
-            end)
-        else
-            pressStartTime = 0
-        end
-    end
-end)
-
-LockButton.InputChanged:Connect(function(input)
-    if (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement) then
-        local inside = isTouchInsideButton(input.Position)
-        
-        if not inside and not dragging then
-            pressStartTime = 0 
-        end
-
-        if canDrag then
-            dragging = true
-            local delta = input.Position - dragStart
-            LockButton.Position = UDim2.new(
-                startPos.X.Scale, startPos.X.Offset + delta.X, 
-                startPos.Y.Scale, startPos.Y.Offset + delta.Y
-            )
-        end
-    end
-end)
-
-UserInputService.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
-        local pressDuration = tick() - pressStartTime
-        local insideAtEnd = isTouchInsideButton(input.Position)
-        
-        LockButton.BackgroundTransparency = 0.2
-        
-        if pressStartTime > 0 and pressDuration < 0.30 and not dragging and insideAtEnd then
-            ToggleShiftLock(not isShiftLockEnabled)
-        end
-        
-        dragging = false
-        canDrag = false
-        pressStartTime = 0
-    end
+-- --- 6. Tap Only Logic (Draggable Removed) ---
+LockButton.MouseButton1Click:Connect(function()
+    ToggleShiftLock(not isShiftLockEnabled)
 end)
