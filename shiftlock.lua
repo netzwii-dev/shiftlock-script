@@ -1,4 +1,4 @@
---[[ ShiftLock Script (No Camera Offset, Fixed Button)
+--[[ ShiftLock Script (No Camera Offset, Fixed Button, DPI 480)
 Creator: Heveladizaar93847
 Testing & Fixing: NPC_PlayersNoob
 Uploader & Update: NPC_PlayersNoob
@@ -23,9 +23,9 @@ ShiftLockGui.Parent = PlayerGui
 local LockButton = Instance.new("ImageButton")
 LockButton.Name = "LockButton"
 LockButton.Parent = ShiftLockGui
+-- Meio vertical, canto direito com offset proporcional
 LockButton.AnchorPoint = Vector2.new(0.5, 0.5)
--- Novo posicionamento: 250px à direita, 300px para cima
-LockButton.Position = UDim2.new(0.85, 260, 0.5, -288)
+LockButton.Position = UDim2.new(1, -60, 0.5, 0) -- 60px da borda direita
 LockButton.Size = UDim2.new(0.075, -17, 0.075, -17) -- Tamanho reduzido
 LockButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
 LockButton.BackgroundTransparency = 0.2
