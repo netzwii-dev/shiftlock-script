@@ -11,7 +11,7 @@ local ShiftLockGui = Instance.new("ScreenGui")
 ShiftLockGui.Name = "FinalShiftlock"
 ShiftLockGui.ResetOnSpawn = false
 ShiftLockGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ShiftLockGui.IgnoreGuiInset = true -- garante que a posição não seja afetada
+ShiftLockGui.IgnoreGuiInset = true
 ShiftLockGui.Parent = PlayerGui
 
 local LockButton = Instance.new("ImageButton")
@@ -19,13 +19,13 @@ LockButton.Name = "LockButton"
 LockButton.Parent = ShiftLockGui
 LockButton.AnchorPoint = Vector2.new(0,0)
 
--- POSIÇÃO BASE ROBLOX MOBILE: canto direito central vertical
-local baseX = 800 -- exemplo de padrão do canto direito (em pixels)
-local baseY = 400 -- meio da tela vertical
+-- Base Roblox mobile padrão
+local baseX = 800
+local baseY = 400
 
--- Aplicando deslocamento: 80px para a esquerda, 70px para baixo
-LockButton.Position = UDim2.new(0, baseX - 80, 0, baseY + 70)
-LockButton.Size = UDim2.new(0, 110, 0, 110) -- maior botão
+-- Aplicando deslocamento: +15px direita, -60px para cima
+LockButton.Position = UDim2.new(0, baseX + 15, 0, baseY - 60)
+LockButton.Size = UDim2.new(0, 80, 0, 80) -- menor botão
 
 LockButton.BackgroundTransparency = 1
 LockButton.BorderSizePixel = 0
@@ -36,13 +36,13 @@ local UIAspect = Instance.new("UIAspectRatioConstraint")
 UIAspect.AspectRatio = 1
 UIAspect.Parent = LockButton
 
--- Crosshair
+-- Crosshair menor
 local Crosshair = Instance.new("ImageLabel")
 Crosshair.Name = "ShiftLockCrosshair"
 Crosshair.Parent = ShiftLockGui
 Crosshair.AnchorPoint = Vector2.new(0.5, 0.5)
-Crosshair.Position = UDim2.new(0.5, 0, 0.5, -29)
-Crosshair.Size = UDim2.new(0, 50, 0, 50)
+Crosshair.Position = UDim2.new(0.5, 0, 0.5, 0) -- meio da tela
+Crosshair.Size = UDim2.new(0, 30, 0, 30) -- menor
 Crosshair.BackgroundTransparency = 1
 Crosshair.Image = "rbxasset://textures/MouseLockedCursor.png"
 Crosshair.Visible = false
@@ -68,7 +68,6 @@ local function enforceOfficialSync()
     local cam = workspace.CurrentCamera
     if not hum then return end
 
-    -- bloqueia mudanças na rotação
     if not userGameSettings then
         pcall(function() userGameSettings = UserSettings():GetService("UserGameSettings") end)
     end
@@ -77,7 +76,7 @@ local function enforceOfficialSync()
     end
 
     UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
-    -- NÃO MOVE A CÂMERA
+    -- NÃO HÁ DESLOCAMENTO
 end
 
 -- --- Toggle ShiftLock ---
