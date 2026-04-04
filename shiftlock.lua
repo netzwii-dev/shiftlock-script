@@ -1,7 +1,7 @@
 --[[ ShiftLock Script (No Camera Offset, Movable Button)
 Creator: Heveladizaar93847
-Testing & Fixing: NPC_PlayersNoob
-Uploader & Update: NPC_PlayersNoob
+Testing & Fixing: Victor238_NIV and Netzwii
+Uploader & Update: Netzwii 
 Note: Camera will not move when ShiftLock is activated.
 ]]
 
